@@ -1,0 +1,353 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\newenvironment{Shaded}{}{}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{#1}}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.49,0.56,0.16}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{#1}}
+\newcommand{\BuiltInTok}[1]{\textcolor[rgb]{0.00,0.50,0.00}{#1}}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.53,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.56,0.13,0.00}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.73,0.13,0.13}{\textit{#1}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.02,0.16,0.49}{#1}}
+\newcommand{\ImportTok}[1]{\textcolor[rgb]{0.00,0.50,0.00}{\textbf{#1}}}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.40,0.40,0.40}{#1}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.74,0.48,0.00}{#1}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.73,0.40,0.53}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.10,0.09,0.49}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{#1}}}}
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+\usepackage{bookmark}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\author{}
+\date{}
+
+\begin{document}
+
+\section{Panduan Penggunaan Repo Proposal
+LaTeX}\label{panduan-penggunaan-repo-proposal-latex}
+
+Repo ini dipakai untuk menulis, merevisi, dan meninjau proposal skripsi
+LaTeX secara kolaboratif menggunakan GitHub.
+
+\subsection{Tujuan Workflow}\label{tujuan-workflow}
+
+Alur kerja repo ini dibuat agar: - file skripsi diedit di laptop
+masing-masing - hasil perubahan masuk ke GitHub dengan rapi - setiap
+revisi diperiksa lewat Pull Request sebelum digabung ke branch utama -
+proses compile dilakukan secara lokal, bukan di Overleaf
+
+\subsection{Struktur File Utama}\label{struktur-file-utama}
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{main.tex} - file utama untuk compile dokumen
+\item
+  \texttt{frontmatter.tex} - bagian awal dokumen
+\item
+  \texttt{chapter1.tex} - Bab 1
+\item
+  \texttt{chapter2.tex} - Bab 2
+\item
+  \texttt{chapter3.tex} - Bab 3
+\item
+  \texttt{appendices.tex} - lampiran
+\item
+  \texttt{references.bib} - daftar pustaka
+\item
+  \texttt{figures/} - folder gambar
+\end{itemize}
+
+\subsection{Cara Compile Lokal}\label{cara-compile-lokal}
+
+Repo ini menggunakan \texttt{XeLaTeX} dan \texttt{Biber}.
+
+Jalankan perintah berikut di folder project:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ExtensionTok{xelatex}\NormalTok{ main.tex}
+\ExtensionTok{biber}\NormalTok{ main}
+\ExtensionTok{xelatex}\NormalTok{ main.tex}
+\ExtensionTok{xelatex}\NormalTok{ main.tex}
+\end{Highlighting}
+\end{Shaded}
+
+Jika memakai VS Code, bisa gunakan extension LaTeX Workshop. Jika
+memakai TeXstudio, pastikan engine yang dipilih adalah \texttt{XeLaTeX}
+dan bibliografi menggunakan \texttt{Biber}.
+
+\subsection{Alur Jika Ratih Sudah Mengubah File di
+Laptop}\label{alur-jika-ratih-sudah-mengubah-file-di-laptop}
+
+Kalau Ratih sudah mengedit file di laptopnya dan ingin memasukkan
+perubahan ke repo GitHub, langkahnya seperti ini.
+
+\subsubsection{1. Masuk ke folder
+project}\label{masuk-ke-folder-project}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\BuiltInTok{cd}\NormalTok{ Proposal\_LaTeX}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{2. Ambil versi terbaru dari
+repo}\label{ambil-versi-terbaru-dari-repo}
+
+Lakukan ini dulu sebelum mulai push, supaya tidak tertinggal perubahan
+terbaru.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{git}\NormalTok{ pull origin main}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{3. Buat branch baru}\label{buat-branch-baru}
+
+Jangan langsung kerja di branch \texttt{main}.
+
+Contoh:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{git}\NormalTok{ checkout }\AttributeTok{{-}b}\NormalTok{ revisi{-}bab2{-}ratih}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{4. Edit file yang
+diperlukan}\label{edit-file-yang-diperlukan}
+
+Contoh file yang diedit: - \texttt{chapter1.tex} - \texttt{chapter2.tex}
+- \texttt{chapter3.tex} - \texttt{references.bib}
+
+\subsubsection{5. Compile lokal dulu}\label{compile-lokal-dulu}
+
+Sebelum push ke GitHub, pastikan dokumen masih bisa dicompile.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ExtensionTok{xelatex}\NormalTok{ main.tex}
+\ExtensionTok{biber}\NormalTok{ main}
+\ExtensionTok{xelatex}\NormalTok{ main.tex}
+\ExtensionTok{xelatex}\NormalTok{ main.tex}
+\end{Highlighting}
+\end{Shaded}
+
+Kalau masih error, selesaikan dulu error lokalnya sebelum lanjut.
+
+\subsubsection{6. Cek file yang berubah}\label{cek-file-yang-berubah}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{git}\NormalTok{ status}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{7. Simpan perubahan ke
+Git}\label{simpan-perubahan-ke-git}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{git}\NormalTok{ add .}
+\FunctionTok{git}\NormalTok{ commit }\AttributeTok{{-}m} \StringTok{"revisi bab 2 oleh Ratih"}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{8. Push branch ke GitHub}\label{push-branch-ke-github}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{git}\NormalTok{ push origin revisi{-}bab2{-}ratih}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{9. Buat Pull Request}\label{buat-pull-request}
+
+Setelah branch berhasil di-push: - buka repo GitHub - akan muncul tombol
+untuk membuat Pull Request - pilih base branch \texttt{main} - isi judul
+dan deskripsi perubahan - submit Pull Request
+
+\subsection{Alur Saat Kamu Menerima Pull
+Request}\label{alur-saat-kamu-menerima-pull-request}
+
+Kalau Ratih atau kolaborator lain sudah membuat Pull Request, langkah
+review yang disarankan:
+
+\subsubsection{1. Baca perubahan di
+GitHub}\label{baca-perubahan-di-github}
+
+Periksa file apa saja yang berubah dan apakah revisinya memang sesuai
+kebutuhan.
+
+\subsubsection{2. Tarik branch itu ke laptop jika perlu dicek
+langsung}\label{tarik-branch-itu-ke-laptop-jika-perlu-dicek-langsung}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{git}\NormalTok{ fetch origin}
+\FunctionTok{git}\NormalTok{ checkout revisi{-}bab2{-}ratih}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{3. Compile lokal}\label{compile-lokal}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ExtensionTok{xelatex}\NormalTok{ main.tex}
+\ExtensionTok{biber}\NormalTok{ main}
+\ExtensionTok{xelatex}\NormalTok{ main.tex}
+\ExtensionTok{xelatex}\NormalTok{ main.tex}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{4. Review isi revisi}\label{review-isi-revisi}
+
+Cek hal berikut: - apakah isi tulisan sudah benar - apakah format LaTeX
+tetap rapi - apakah sitasi dan daftar pustaka tetap normal - apakah
+tidak ada file penting yang terhapus
+
+\subsubsection{5. Jika sudah aman, merge Pull
+Request}\label{jika-sudah-aman-merge-pull-request}
+
+Merge dilakukan ke \texttt{main}.
+
+\subsection{Aturan Kerja yang
+Disarankan}\label{aturan-kerja-yang-disarankan}
+
+\begin{itemize}
+\tightlist
+\item
+  Jangan edit langsung di branch \texttt{main}.
+\item
+  Satu branch untuk satu jenis revisi.
+\item
+  Sebisa mungkin satu orang fokus ke satu bab agar konflik kecil.
+\item
+  Jika mengubah \texttt{references.bib}, beri tahu anggota lain karena
+  file ini rawan konflik.
+\item
+  Selalu compile lokal sebelum commit dan sebelum merge.
+\item
+  Gunakan pesan commit yang jelas.
+\end{itemize}
+
+\subsection{Contoh Nama Branch}\label{contoh-nama-branch}
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{revisi-bab1-ratih}
+\item
+  \texttt{tambah-referensi-bab2}
+\item
+  \texttt{perbaiki-abstrak}
+\item
+  \texttt{rapikan-frontmatter}
+\end{itemize}
+
+\subsection{Contoh Pesan Commit}\label{contoh-pesan-commit}
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{revisi\ latar\ belakang\ bab\ 1}
+\item
+  \texttt{menambah\ sitasi\ pada\ bab\ 2}
+\item
+  \texttt{perbaiki\ format\ abstrak}
+\item
+  \texttt{rapikan\ daftar\ pustaka}
+\end{itemize}
+
+\subsection{Jika Repo Belum Pernah Diunggah ke
+GitHub}\label{jika-repo-belum-pernah-diunggah-ke-github}
+
+Kalau repo ini belum dihubungkan ke GitHub, jalankan sekali saja:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{git}\NormalTok{ init}
+\FunctionTok{git}\NormalTok{ add .}
+\FunctionTok{git}\NormalTok{ commit }\AttributeTok{{-}m} \StringTok{"initial commit proposal latex"}
+\FunctionTok{git}\NormalTok{ branch }\AttributeTok{{-}M}\NormalTok{ main}
+\FunctionTok{git}\NormalTok{ remote add origin }\OperatorTok{\textless{}}\NormalTok{url{-}repo{-}github}\OperatorTok{\textgreater{}}
+\FunctionTok{git}\NormalTok{ push }\AttributeTok{{-}u}\NormalTok{ origin main}
+\end{Highlighting}
+\end{Shaded}
+
+Setelah itu, workflow berikutnya tinggal pakai branch dan Pull Request
+seperti langkah di atas.
+
+\end{document}
