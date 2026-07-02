@@ -1,0 +1,127 @@
+\begin{titlepage}
+\begin{center}
+{\bfseries\Large Analisis Perbandingan Model \eng{Machine Learning} untuk Prediksi\\
+Diabetes Mellitus Tipe 2 dengan Pendekatan \eng{Explainable AI}\par}
+
+\vspace{1.7cm}
+{\bfseries\large Tugas Akhir\par}
+\vspace{0.25cm}
+{diajukan untuk memenuhi salah satu syarat memperoleh gelar sarjana\\
+pada Program Studi Sains Data\\
+Direktorat Kampus Purwokerto\\
+Universitas Telkom\par}
+
+\vspace{1.3cm}
+\includegraphics[width=4.2cm]{logo_telkom.png}
+
+\vfill
+{\bfseries 2311110037\par}
+{\bfseries Ratih Ambara Sukma Kurnilia\par}
+
+\vfill
+{\bfseries Program Studi Sarjana Sains Data\\
+Direktorat Kampus Purwokerto\\
+Universitas Telkom\\
+Purwokerto\\
+2026\par}
+\end{center}
+\end{titlepage}
+
+\pagenumbering{roman}
+\setcounter{page}{2}
+
+\chapter*{LEMBAR PENGESAHAN}
+\addcontentsline{toc}{chapter}{LEMBAR PENGESAHAN}
+\begin{center}
+\textbf{Analisis Perbandingan Model \eng{Machine Learning} untuk Prediksi\\
+Diabetes Mellitus Tipe 2 dengan Pendekatan \eng{Explainable AI}}\\[0.8cm]
+
+\eng{Comparative Analysis of Machine Learning Models for Predicting Type 2\\
+Diabetes Mellitus with an Explainable AI Approach}\\[0.8cm]
+
+\textbf{2311110037}\\
+\textbf{Ratih Ambara Sukma Kurnilia}\\[0.8cm]
+
+Usulan Penelitian Tugas Akhir telah disetujui pada tanggal\\
+19 Mei 2026\\[0.8cm]
+
+\textbf{Menyetujui}\\[0.6cm]
+\begin{tabularx}{\textwidth}{X X}
+\centering Pembimbing I, & \centering\arraybackslash Pembimbing II,\\[2.2cm]
+\centering \textbf{Aditya Dwi Putro W, S.Kom., M.Kom.} & \centering\arraybackslash \textbf{Lisda, S.Kom., M.Kom.}\\
+\centering NIP: 17930052 & \centering\arraybackslash NIP: 24990008
+\end{tabularx}
+
+\vspace{1.2cm}
+Ketua Program Studi\\
+Sarjana Sains Data,\\[2.2cm]
+\textbf{Sudianto, S.Pd., M.Kom.}\\
+NIP: 24930008
+\end{center}
+
+\clearpage
+\chapter*{LEMBAR ORISINALITAS}
+\addcontentsline{toc}{chapter}{LEMBAR ORISINALITAS}
+Dengan ini saya, Ratih Ambara Sukma Kurnilia, menyatakan sesungguhnya bahwa Tugas Akhir saya dengan judul \textit{Analisis Perbandingan Model Machine Learning untuk Prediksi Diabetes Mellitus Tipe 2 dengan Pendekatan Explainable AI} beserta dengan seluruh isinya merupakan hasil karya saya sendiri, dengan tidak melakukan penjiplakan yang tidak sesuai dengan etika keilmuan yang berlaku dengan masyarakat keilmuan, serta produk dari tugas akhir ini bukan merupakan hasil dari \eng{Generative AI}. Saya siap menanggung risiko/sanksi yang diberikan jika di kemudian hari ditemukan pelanggaran terhadap etika keilmuan dalam Laporan Tugas Akhir, atau jika ada klaim dari pihak lain terhadap keaslian karya.
+
+\vspace{2cm}
+\begin{flushright}
+Purwokerto, 19 Mei 2026\\
+Yang menyatakan\\[2.2cm]
+\textbf{Ratih Ambara Sukma Kurnilia}\\
+NIM: 2311110037
+\end{flushright}
+
+\clearpage
+\chapter*{ABSTRAK}
+\addcontentsline{toc}{chapter}{ABSTRAK}
+Diabetes Mellitus Tipe 2 (T2DM) merupakan penyakit kronis dengan prevalensi yang terus meningkat dan memerlukan deteksi dini untuk mencegah komplikasi. Penelitian ini bertujuan untuk menganalisis perbandingan performa algoritma \eng{machine learning} dalam memprediksi T2DM berbasis data \eng{Electronic Health Records}. Dataset yang digunakan meliputi data demografis, riwayat diagnosis, penggunaan obat, serta hasil pemeriksaan klinis yang diintegrasikan menggunakan atribut \texttt{PatientGuid}. Metode penelitian menggunakan kerangka kerja OSEMN yang mencakup perolehan data, pembersihan dan penyiapan data, eksplorasi data, pemodelan, serta interpretasi hasil. Pada tahap \eng{preprocessing} dilakukan penanganan \eng{missing values}, \eng{encoding} variabel kategorikal, serta standarisasi fitur numerik. Data kemudian dibagi menjadi data latih dan data uji menggunakan \eng{stratified split} untuk menjaga distribusi kelas. Model yang dibandingkan terdiri dari algoritma \eng{baseline}, yaitu \eng{Logistic Regression}, \eng{Support Vector Machine}, dan \eng{K-Nearest Neighbors}, serta algoritma \eng{boosting}, yaitu \eng{Gradient Boosting}, XGBoost, dan LightGBM. Perbandingan performa model dilakukan untuk mengidentifikasi algoritma terbaik dalam memprediksi T2DM, dengan optimasi \eng{hyperparameter} menggunakan Optuna. Model dengan performa terbaik selanjutnya akan diinterpretasikan menggunakan pendekatan \eng{Explainable Artificial Intelligence} dengan metode SHAP untuk memberikan pemahaman mengenai kontribusi fitur dalam proses prediksi.
+
+\noindent\textbf{Kata Kunci:} diabetes mellitus tipe 2, \eng{machine learning}, \eng{electronic health records}, klasifikasi, prediksi, optuna
+
+\clearpage
+\chapter*{ABSTRACT}
+\addcontentsline{toc}{chapter}{ABSTRACT}
+\begin{otherlanguage}{english}
+Type 2 Diabetes Mellitus (T2DM) is a chronic disease with increasing prevalence and requires early detection to prevent complications. This study aims to analyze the comparative performance of machine learning algorithms in predicting T2DM based on Electronic Health Records data. The dataset includes patient demographics, diagnosis history, medication usage, and clinical measurements, which are integrated using the \texttt{PatientGuid} attribute. The research method follows the OSEMN framework, including data acquisition, data cleaning and preparation, data exploration, modeling, and result interpretation. In the preprocessing stage, missing values are handled, categorical variables are encoded, and numerical features are standardized. The dataset is then divided into training and testing sets using a stratified split to maintain class distribution. The models compared in this study include baseline algorithms, namely Logistic Regression, Support Vector Machine, and K-Nearest Neighbors, as well as boosting algorithms, including Gradient Boosting, XGBoost, and LightGBM. A comparative analysis is conducted to identify the best-performing algorithm for T2DM prediction, with hyperparameter optimization performed using the Optuna framework. The best-performing model will be further interpreted using Explainable Artificial Intelligence with the SHAP method to provide insights into feature contributions in the prediction process.
+
+\noindent\textbf{Keywords:} type 2 diabetes mellitus, machine learning, electronic health records, classification, prediction, optuna
+\end{otherlanguage}
+
+\clearpage
+\chapter*{KATA PENGANTAR}
+\addcontentsline{toc}{chapter}{KATA PENGANTAR}
+Puji dan syukur penulis panjatkan ke hadirat Tuhan Yang Maha Esa atas segala rahmat dan karunia-Nya sehingga penulis dapat menyelesaikan proposal tugas akhir ini dengan baik. Proposal ini disusun sebagai salah satu syarat untuk menyelesaikan pendidikan pada Program Studi yang penulis tempuh.
+
+Penulisan proposal tugas akhir ini bertujuan untuk mengkaji dan menganalisis topik yang telah dipilih oleh penulis, serta sebagai langkah awal dalam penyusunan tugas akhir yang lebih komprehensif. Penulis menyadari bahwa dalam proses penyusunan proposal ini tidak terlepas dari bantuan, bimbingan, serta dukungan dari berbagai pihak. Oleh karena itu, pada kesempatan ini penulis ingin menyampaikan ucapan terima kasih kepada:
+\begin{enumerate}
+\item Allah SWT dan Nabi Muhammad SAW atas segala rahmat dan petunjuk-Nya.
+\item Kedua orang tua tercinta, Ayah dan Ibu, yang senantiasa memberikan dukungan moral, doa, serta dukungan finansial.
+\item Bapak Sudianto, S.Pd., M.Kom. selaku Ketua Program Studi Sains Data yang telah memberikan arahan selama masa perkuliahan.
+\item Bapak Aditya Dwi Putro W, S.Kom., M.Kom. dan Lisda, S.Kom., M.Kom. selaku dosen pembimbing yang telah memberikan bimbingan, arahan, serta masukan selama proses penyusunan skripsi.
+\item Semua pihak yang tidak dapat disebutkan satu per satu yang telah membantu dalam penyusunan skripsi ini.
+\end{enumerate}
+
+\begin{flushright}
+Purwokerto, 19 Mei 2026\\[1.5cm]
+Ratih Ambara Sukma Kurnilia
+\end{flushright}
+
+\clearpage
+\tableofcontents
+\clearpage
+\listoffigures
+\addcontentsline{toc}{chapter}{DAFTAR GAMBAR}
+\clearpage
+\listoftables
+\addcontentsline{toc}{chapter}{DAFTAR TABEL}
+\clearpage
+\chapter*{DAFTAR LAMPIRAN}
+\addcontentsline{toc}{chapter}{DAFTAR LAMPIRAN}
+\begin{tabularx}{\textwidth}{@{}lXr@{}}
+Lampiran 1. & Deskripsi Dataset \texttt{patient.csv} & \pageref{app:patient}\\
+Lampiran 2. & Deskripsi Dataset \texttt{diagnosis.csv} & \pageref{app:diagnosis}\\
+Lampiran 3. & Deskripsi Dataset \texttt{medication.csv} & \pageref{app:medication}\\
+Lampiran 4. & Deskripsi Dataset \texttt{transcript.csv} & \pageref{app:transcript}
+\end{tabularx}
+\clearpage

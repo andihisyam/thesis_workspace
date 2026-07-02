@@ -1,0 +1,83 @@
+\chapter{Pendahuluan}
+
+\section{Latar Belakang}
+Perkembangan teknologi \eng{machine learning} dalam beberapa tahun terakhir semakin pesat dan sudah banyak digunakan di berbagai bidang, seperti industri, keuangan, dan juga kesehatan. \eng{Machine learning} memungkinkan komputer untuk mempelajari pola dari data dan menghasilkan prediksi tanpa harus diprogram secara detail. Dengan semakin banyaknya data yang tersedia serta meningkatnya kemampuan komputasi, penggunaan \eng{machine learning} menjadi semakin luas dan berkembang \cite{ref1}.
+
+Di bidang kesehatan, \eng{machine learning} mulai banyak dimanfaatkan untuk membantu proses diagnosis dan prediksi penyakit. Hal ini karena \eng{machine learning} mampu mengolah data dalam jumlah besar dan menemukan pola yang sulit dikenali secara manual \cite{ref2}. Salah satu jenis data yang sering digunakan adalah data rekam medis elektronik atau \eng{Electronic Health Records} (EHR). Data ini berisi berbagai informasi pasien, seperti data demografi, riwayat penyakit, hasil pemeriksaan, dan data klinis lainnya \cite{ref3}. Dengan memanfaatkan data tersebut, model \eng{machine learning} dapat digunakan untuk membantu memprediksi risiko suatu penyakit secara lebih cepat dan efisien \cite{ref4,ref5}.
+
+Salah satu penyakit yang banyak diteliti menggunakan \eng{machine learning} adalah Diabetes Mellitus Tipe 2 (T2DM). T2DM merupakan penyakit kronis yang terjadi akibat gangguan metabolisme glukosa dalam tubuh, yang disebabkan oleh resistensi insulin dan penurunan fungsi sel beta pankreas \cite{ref6}. Berdasarkan data dari World Health Organization, jumlah penderita diabetes terus meningkat dari tahun ke tahun dan telah mencapai lebih dari 830 juta orang di seluruh dunia \cite{ref7}. Penyakit ini juga dapat menimbulkan berbagai komplikasi serius, seperti penyakit jantung, gangguan ginjal, dan kerusakan saraf \cite{ref8}. Selain itu, beberapa penelitian juga menunjukkan adanya faktor risiko lain yang berkaitan dengan kondisi metabolik tubuh \cite{ref9}.
+
+Deteksi dini terhadap T2DM sangat penting agar penyakit dapat ditangani lebih cepat dan risiko komplikasi dapat dikurangi. Namun, metode konvensional seperti pemeriksaan kadar gula darah masih memiliki beberapa keterbatasan, misalnya membutuhkan biaya, waktu, dan akses ke fasilitas kesehatan. Selain itu, pemeriksaan tersebut biasanya dilakukan setelah muncul gejala, sehingga kurang efektif untuk deteksi dini. Oleh karena itu, diperlukan metode lain yang lebih cepat dan efisien untuk memprediksi risiko diabetes.
+
+Berbagai algoritma \eng{machine learning} telah digunakan untuk memprediksi diabetes. Beberapa algoritma \eng{baseline} seperti \eng{Logistic Regression}, \eng{Support Vector Machine} (SVM), dan \eng{K-Nearest Neighbors} (KNN) merupakan metode klasifikasi yang relatif sederhana dan sering digunakan sebagai model awal \cite{ref10}. \eng{Logistic Regression} merupakan model linear berbasis probabilitas, SVM bekerja dengan mencari \eng{hyperplane} optimal, sedangkan KNN melakukan klasifikasi berbasis jarak \cite{ref11}. Penelitian yang dilakukan oleh Kurniawan et al. \cite{ref10} membandingkan ketiga algoritma tersebut dan menunjukkan bahwa \eng{Logistic Regression} mencapai akurasi sekitar 75\%, SVM sebesar 74\%, dan KNN sebesar 71\% pada dataset diabetes. Hasil tersebut menunjukkan bahwa algoritma \eng{baseline} cukup baik sebagai model awal, namun memiliki keterbatasan dalam menangani hubungan yang kompleks dan non-linear pada data kesehatan.
+
+Untuk mengatasi hal tersebut, digunakan metode yang lebih kompleks seperti \eng{boosting}, yaitu \eng{Gradient Boosting}, XGBoost, dan LightGBM. Metode \eng{boosting} merupakan teknik \eng{ensemble learning} yang membangun model secara bertahap dengan memperbaiki kesalahan model sebelumnya \cite{ref12}. \eng{Gradient Boosting} bekerja dengan meminimalkan fungsi \eng{loss} secara iteratif, XGBoost merupakan pengembangan dengan tambahan regularisasi dan efisiensi komputasi, sedangkan LightGBM menggunakan pendekatan \eng{leaf-wise} untuk meningkatkan kecepatan pelatihan \cite{ref13}. Penelitian oleh Ahamed et al. \cite{ref14} menunjukkan bahwa LightGBM mampu mencapai akurasi 95,20\%, lebih tinggi dibandingkan \eng{Logistic Regression} yang hanya mencapai 75,20\%. Selain itu, penelitian oleh Hasan et al. \cite{ref15} menunjukkan bahwa model berbasis XGBoost mampu mencapai akurasi 92,50\% dengan ROC-AUC sebesar 0,975. Penelitian lain oleh Elseddawy et al. \cite{ref16} juga menunjukkan bahwa \eng{Gradient Boosting} dapat mencapai akurasi hingga 97\%. Hasil ini menunjukkan bahwa metode \eng{boosting} memiliki performa yang lebih baik dibandingkan algoritma \eng{baseline} dalam menangani data yang kompleks.
+
+Meskipun demikian, algoritma \eng{baseline} memiliki kelemahan dalam menangani hubungan non-linear dan cenderung bias pada data yang tidak seimbang \cite{ref10}. Di sisi lain, metode \eng{boosting} juga memiliki tantangan, seperti risiko \eng{overfitting} dan sensitivitas terhadap pemilihan \eng{hyperparameter} \cite{ref17}. Pemilihan parameter yang tidak tepat dapat menyebabkan model tidak optimal atau bahkan menurun performanya. Oleh karena itu, proses \eng{hyperparameter tuning} menjadi sangat penting untuk meningkatkan performa model. Penelitian oleh Dhanka dan Maini \cite{ref17} menunjukkan bahwa penggunaan Optuna sebagai metode optimasi \eng{hyperparameter} dapat meningkatkan akurasi model dari sekitar 85\% menjadi 95,45\%. Selain itu, penelitian oleh Duță dan Sultana \cite{ref18} juga menunjukkan bahwa penggunaan Optuna mampu menghasilkan akurasi sebesar 93,27\% pada kasus klasifikasi lainnya. Hal ini menunjukkan bahwa Optuna lebih efektif dibandingkan metode konvensional seperti \eng{grid search} karena mampu mengeksplorasi ruang parameter secara lebih efisien.
+
+Beberapa penelitian sebelumnya telah menunjukkan bahwa \eng{machine learning} dapat digunakan untuk memprediksi diabetes dengan hasil yang cukup baik. Penelitian oleh Bontha et al. \cite{ref19} menunjukkan bahwa model berbasis kecerdasan buatan mampu memprediksi risiko diabetes secara efektif dengan akurasi tertinggi 79\%. Penelitian oleh Zhang et al. \cite{ref20} juga berhasil memprediksi komplikasi diabetes berupa \eng{diabetic foot} menggunakan model \eng{machine learning} dengan akurasi sebesar 95\% dan sensitivitas sebesar 92,86\%. Selain itu, penelitian oleh Liu et al. \cite{ref21} menunjukkan bahwa model \eng{ensemble} mampu mencapai AUC sebesar 0,868, lebih tinggi dibandingkan model tunggal. Penelitian oleh El Massari et al. \cite{ref22} juga menunjukkan bahwa penggunaan \eng{feature engineering} dan optimasi model mampu meningkatkan akurasi hingga 94\%.
+
+Berdasarkan berbagai penelitian tersebut, terlihat bahwa penggunaan algoritma \eng{boosting} dan teknik optimasi memberikan peningkatan performa yang signifikan. Namun, penelitian terdahulu menggunakan pendekatan \eng{hyperparameter tuning} yang beragam, seperti \eng{grid search}, \eng{random search}, maupun tanpa \eng{tuning} sistematis \cite{ref10,ref22}. Sementara itu, penggunaan Optuna sebagai metode optimasi yang lebih efisien masih belum banyak diterapkan secara komprehensif pada kasus prediksi diabetes, terutama dalam kombinasi dengan perbandingan algoritma \eng{baseline} dan \eng{boosting} secara sistematis.
+
+Di sisi lain, dalam bidang kesehatan, hasil prediksi tidak hanya harus akurat tetapi juga harus dapat dipahami. Oleh karena itu, diperlukan pendekatan \eng{Explainable Artificial Intelligence} (XAI) untuk membantu menjelaskan hasil model \cite{ref23}. Salah satu metode yang sering digunakan adalah SHAP, yang dapat menunjukkan kontribusi masing-masing fitur terhadap hasil prediksi \cite{ref15,ref24}. Namun, metode ini juga memiliki beberapa keterbatasan yang perlu diperhatikan dalam interpretasi hasil \cite{ref25}.
+
+Berdasarkan permasalahan tersebut, penelitian ini akan dilakukan untuk membandingkan performa algoritma \eng{machine learning baseline} dan metode \eng{boosting} dalam memprediksi Diabetes Mellitus Tipe 2 menggunakan data EHR. Selain itu, penelitian ini juga menerapkan \eng{hyperparameter tuning} untuk meningkatkan performa model. Setelah itu, model terbaik akan dianalisis menggunakan metode SHAP untuk melihat interpretasi hasilnya. Model yang dihasilkan juga akan dibangun dalam bentuk sistem sederhana agar dapat digunakan sebagai pendukung pengambilan keputusan. Dengan demikian, diharapkan penelitian ini dapat menghasilkan model yang tidak hanya akurat, tetapi juga dapat dipahami dan digunakan dalam bidang kesehatan.
+
+\section{Rumusan Masalah}
+Berdasarkan latar belakang yang telah diuraikan, maka rumusan masalah dalam penelitian ini adalah sebagai berikut:
+\begin{enumerate}
+\item Bagaimana membangun model \eng{machine learning} untuk prediksi Diabetes Mellitus Tipe 2 menggunakan data EHR dengan menerapkan algoritma \eng{baseline} dan algoritma berbasis \eng{boosting}?
+\item Bagaimana perbandingan performa antara algoritma \eng{machine learning} tradisional sebagai model \eng{baseline} dan algoritma berbasis \eng{boosting} dalam memprediksi Diabetes Mellitus Tipe 2 berdasarkan data EHR?
+\item Bagaimana pengaruh penerapan \eng{hyperparameter tuning} terhadap peningkatan performa model \eng{machine learning}, baik pada algoritma tradisional maupun algoritma berbasis \eng{boosting}?
+\item Algoritma \eng{machine learning} apa yang memberikan performa terbaik dalam prediksi Diabetes Mellitus Tipe 2, serta bagaimana hasil prediksi dari model terbaik tersebut dapat diinterpretasikan menggunakan pendekatan XAI untuk mengidentifikasi fitur-fitur yang berpengaruh?
+\end{enumerate}
+
+\section{Tujuan Penelitian}
+Berdasarkan rumusan masalah yang telah ditetapkan, maka tujuan dari penelitian ini adalah sebagai berikut:
+\begin{enumerate}
+\item Membangun model \eng{machine learning} untuk prediksi Diabetes Mellitus Tipe 2 menggunakan data EHR dengan menerapkan algoritma \eng{baseline} dan algoritma berbasis \eng{boosting}.
+\item Menganalisis perbandingan performa antara algoritma \eng{machine learning} tradisional sebagai model \eng{baseline} dan algoritma berbasis \eng{boosting} dalam memprediksi Diabetes Mellitus Tipe 2 berdasarkan data EHR.
+\item Menganalisis pengaruh penerapan \eng{hyperparameter tuning} terhadap peningkatan performa model \eng{machine learning}, baik pada algoritma tradisional maupun algoritma berbasis \eng{boosting}.
+\item Menentukan algoritma \eng{machine learning} yang memberikan performa terbaik dalam prediksi Diabetes Mellitus Tipe 2 serta menginterpretasikan hasil prediksi model menggunakan pendekatan \eng{Explainable AI} untuk mengidentifikasi fitur-fitur yang berpengaruh.
+\end{enumerate}
+
+\section{Manfaat Penelitian}
+Manfaat penelitian ini menjelaskan kontribusi yang dapat diperoleh apabila permasalahan dalam penelitian ini berhasil diselesaikan. Manfaat tersebut ditujukan bagi pihak-pihak yang berkaitan dengan pemanfaatan hasil penelitian, baik secara akademis maupun praktis.
+
+Penelitian ini diharapkan dapat memberikan manfaat bagi berbagai pihak sebagai berikut:
+\begin{enumerate}
+\item \textbf{Bagi tenaga medis dan praktisi kesehatan.} Hasil penelitian ini diharapkan dapat membantu dalam proses pengambilan keputusan klinis, khususnya dalam mendeteksi risiko Diabetes Mellitus Tipe 2 secara lebih dini melalui pemanfaatan model prediksi berbasis \eng{machine learning} yang lebih akurat dan objektif.
+\item \textbf{Bagi pengembang sistem dan organisasi di bidang kesehatan.} Penelitian ini dapat menjadi acuan dalam pengembangan sistem pendukung keputusan berbasis data EHR, sehingga dapat meningkatkan efisiensi dan efektivitas dalam pengelolaan data pasien serta prediksi risiko penyakit.
+\item \textbf{Bagi peneliti dan akademisi.} Penelitian ini diharapkan dapat menjadi referensi dalam pengembangan penelitian selanjutnya, khususnya yang berkaitan dengan perbandingan algoritma \eng{machine learning} tradisional dan metode berbasis \eng{boosting}, penerapan \eng{hyperparameter tuning}, serta penggunaan XAI dalam meningkatkan interpretabilitas model prediksi.
+\end{enumerate}
+
+\section{Batasan Masalah}
+Agar penelitian ini lebih terarah dan sesuai dengan tujuan yang ditetapkan, maka batasan masalah dalam penelitian ini adalah sebagai berikut:
+\begin{enumerate}
+\item Penelitian ini menggunakan data EHR yang berfokus pada data terstruktur, tanpa melibatkan data citra medis maupun data tidak terstruktur lainnya.
+\item Penelitian difokuskan pada prediksi Diabetes Mellitus Tipe 2 sebagai variabel target, tanpa membahas jenis diabetes lain maupun penyakit penyerta secara mendalam.
+\item Model yang digunakan terbatas pada beberapa algoritma \eng{machine learning} tradisional sebagai \eng{baseline} dan algoritma berbasis \eng{boosting} sebagai pembanding utama, dengan peningkatan performa melalui \eng{hyperparameter tuning}.
+\item Evaluasi model dilakukan menggunakan metrik klasifikasi, serta interpretasi hasil prediksi dilakukan menggunakan pendekatan XAI dengan metode SHAP yang diterapkan pada model dengan performa terbaik untuk mengidentifikasi fitur-fitur yang berpengaruh.
+\end{enumerate}
+
+\section{Jadwal Penelitian}
+Untuk merealisasikan tujuan penelitian dan rencana kegiatan yang telah disusun, diperlukan penjadwalan yang sistematis agar setiap tahapan dapat terlaksana secara efektif dan efisien. Jadwal kegiatan berikut ini mencakup keseluruhan proses pelaksanaan Tugas Akhir, mulai dari tahap persiapan hingga penyusunan laporan akhir.
+
+\begin{table}[H]
+\centering
+\caption{Jadwal Kegiatan}
+\label{tab:jadwal}
+\small
+\begin{tabular}{|L{4.2cm}|*{6}{C{1.1cm}|}}
+\hline
+\multirow{2}{*}{\centering Kegiatan} & \multicolumn{6}{c|}{Bulan}\\ \cline{2-7}
+& 1 & 2 & 3 & 4 & 5 & 6\\ \hline
+Kajian Pustaka & \cellcolor{cyan!55} & & & & & \\ \hline
+Pengembangan Metodologi & & \cellcolor{cyan!55} & & & & \\ \hline
+Pengumpulan Data & & & \cellcolor{cyan!55} & & & \\ \hline
+Implementasi Model & & & \cellcolor{cyan!55} & \cellcolor{cyan!55} & & \\ \hline
+Uji Coba & & & & \cellcolor{cyan!55} & \cellcolor{cyan!55} & \\ \hline
+Analisa Hasil & & & & & \cellcolor{cyan!55} & \cellcolor{cyan!55} \\ \hline
+Penulisan Laporan & \cellcolor{cyan!55} & \cellcolor{cyan!55} & \cellcolor{cyan!55} & \cellcolor{cyan!55} & \cellcolor{cyan!55} & \cellcolor{cyan!55} \\ \hline
+\end{tabular}
+\end{table}
