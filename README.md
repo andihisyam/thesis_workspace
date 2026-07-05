@@ -1,164 +1,79 @@
-# Panduan Penggunaan Repo Proposal LaTeX
+# AI Thesis Writing Assistant
 
-Repo ini dipakai untuk menulis, merevisi, dan meninjau proposal skripsi LaTeX secara kolaboratif menggunakan GitHub.
+Repo ini dibagi menjadi dua area kerja:
 
-## Tujuan Workflow
-Alur kerja repo ini dibuat agar:
-- file skripsi diedit di laptop masing-masing
-- hasil perubahan masuk ke GitHub dengan rapi
-- setiap revisi diperiksa lewat Pull Request sebelum digabung ke branch utama
-- proses compile dilakukan secara lokal, bukan di Overleaf
+- `thesis/` untuk source LaTeX proposal skripsi
+- `app/` untuk aplikasi reviewer berbasis `Streamlit + LangGraph`
 
-## Struktur File Utama
-- `main.tex` - file utama untuk compile dokumen
-- `frontmatter.tex` - bagian awal dokumen
-- `chapter1.tex` - Bab 1
-- `chapter2.tex` - Bab 2
-- `chapter3.tex` - Bab 3
-- `appendices.tex` - lampiran
-- `references.bib` - daftar pustaka
-- `figures/` - folder gambar
+## Struktur Project
 
-## Cara Compile Lokal
-Repo ini menggunakan `XeLaTeX` dan `Biber`.
-
-Jalankan perintah berikut di folder project:
-
-```bash
-xelatex main.tex
-biber main
-xelatex main.tex
-xelatex main.tex
+```text
+Proposal_LaTeX/
++- thesis/     # source dan hasil compile LaTeX
++- app/        # aplikasi reviewer
++- data/       # cache, log, dan referensi PDF berikutnya
++- tests/      # test sederhana untuk service app
 ```
 
-Jika memakai VS Code, bisa gunakan extension LaTeX Workshop. Jika memakai TeXstudio, pastikan engine yang dipilih adalah `XeLaTeX` dan bibliografi menggunakan `Biber`.
+## V1.5 Yang Sudah Dibuat
 
-## Alur Jika Ratih Sudah Mengubah File di Laptop
-Kalau Ratih sudah mengedit file di laptopnya dan ingin memasukkan perubahan ke repo GitHub, langkahnya seperti ini.
+Versi ini fokus pada review file `.tex` per bab dengan dua mode:
 
-### 1. Masuk ke folder project
-```bash
-cd Proposal_LaTeX
-```
+- `OpenRouter review` jika `OPENROUTER_API_KEY` tersedia
+- `fallback rule-based` jika API key belum ada atau request gagal
 
-### 2. Ambil versi terbaru dari repo
-Lakukan ini dulu sebelum mulai push, supaya tidak tertinggal perubahan terbaru.
+Kemampuan saat ini:
 
-```bash
-git pull origin main
-```
+- memilih bab dari GUI
+- membaca source LaTeX
+- memecah dokumen menjadi paragraf
+- memberi saran review yang lebih kontekstual lewat model di OpenRouter
+- menampilkan prioritas, paragraf terkait, dan usulan revisi singkat
+- menjalankan alur review melalui `LangGraph`
 
-### 3. Buat branch baru
-Jangan langsung kerja di branch `main`.
+## Menjalankan App
 
-Contoh:
-```bash
-git checkout -b revisi-bab2-ratih
-```
-
-### 4. Edit file yang diperlukan
-Contoh file yang diedit:
-- `chapter1.tex`
-- `chapter2.tex`
-- `chapter3.tex`
-- `references.bib`
-
-### 5. Compile lokal dulu
-Sebelum push ke GitHub, pastikan dokumen masih bisa dicompile.
+1. Aktifkan virtual environment.
+2. Install dependency:
 
 ```bash
-xelatex main.tex
-biber main
-xelatex main.tex
-xelatex main.tex
+pip install -r requirements.txt
 ```
 
-Kalau masih error, selesaikan dulu error lokalnya sebelum lanjut.
-
-### 6. Cek file yang berubah
-```bash
-git status
-```
-
-### 7. Simpan perubahan ke Git
-```bash
-git add .
-git commit -m "revisi bab 2 oleh Ratih"
-```
-
-### 8. Push branch ke GitHub
-```bash
-git push origin revisi-bab2-ratih
-```
-
-### 9. Buat Pull Request
-Setelah branch berhasil di-push:
-- buka repo GitHub
-- akan muncul tombol untuk membuat Pull Request
-- pilih base branch `main`
-- isi judul dan deskripsi perubahan
-- submit Pull Request
-
-## Alur Saat Kamu Menerima Pull Request
-Kalau Ratih atau kolaborator lain sudah membuat Pull Request, langkah review yang disarankan:
-
-### 1. Baca perubahan di GitHub
-Periksa file apa saja yang berubah dan apakah revisinya memang sesuai kebutuhan.
-
-### 2. Tarik branch itu ke laptop jika perlu dicek langsung
-```bash
-git fetch origin
-git checkout revisi-bab2-ratih
-```
-
-### 3. Compile lokal
-```bash
-xelatex main.tex
-biber main
-xelatex main.tex
-xelatex main.tex
-```
-
-### 4. Review isi revisi
-Cek hal berikut:
-- apakah isi tulisan sudah benar
-- apakah format LaTeX tetap rapi
-- apakah sitasi dan daftar pustaka tetap normal
-- apakah tidak ada file penting yang terhapus
-
-### 5. Jika sudah aman, merge Pull Request
-Merge dilakukan ke `main`.
-
-## Aturan Kerja yang Disarankan
-- Jangan edit langsung di branch `main`.
-- Satu branch untuk satu jenis revisi.
-- Sebisa mungkin satu orang fokus ke satu bab agar konflik kecil.
-- Jika mengubah `references.bib`, beri tahu anggota lain karena file ini rawan konflik.
-- Selalu compile lokal sebelum commit dan sebelum merge.
-- Gunakan pesan commit yang jelas.
-
-## Contoh Nama Branch
-- `revisi-bab1-ratih`
-- `tambah-referensi-bab2`
-- `perbaiki-abstrak`
-- `rapikan-frontmatter`
-
-## Contoh Pesan Commit
-- `revisi latar belakang bab 1`
-- `menambah sitasi pada bab 2`
-- `perbaiki format abstrak`
-- `rapikan daftar pustaka`
-
-## Jika Repo Belum Pernah Diunggah ke GitHub
-Kalau repo ini belum dihubungkan ke GitHub, jalankan sekali saja:
+3. Buat file env dari template:
 
 ```bash
-git init
-git add .
-git commit -m "initial commit proposal latex"
-git branch -M main
-git remote add origin <url-repo-github>
-git push -u origin main
+copy .env.example .env
 ```
 
-Setelah itu, workflow berikutnya tinggal pakai branch dan Pull Request seperti langkah di atas.
+4. Isi `OPENROUTER_API_KEY` di `.env`.
+
+5. Jalankan app:
+
+```bash
+streamlit run app/main.py --server.address 127.0.0.1 --server.port 8765
+```
+
+## Contoh `.env`
+
+```env
+OPENROUTER_API_KEY=sk-or-v1-...
+OPENROUTER_MODEL=cohere/north-mini-code:free
+OPENROUTER_BASE_URL=https://openrouter.ai/api/v1
+OPENROUTER_APP_URL=http://localhost:8765
+OPENROUTER_APP_NAME=Thesis Review Assistant
+THESIS_ROOT=thesis
+```
+
+## Folder `thesis/`
+
+Dokumen LaTeX yang sebelumnya ada di root sudah disalin ke `thesis/` sebagai lokasi kerja resmi baru untuk aplikasi.
+
+Panduan compile LaTeX lama tetap tersedia di `thesis/README.md`.
+
+## Rencana Berikutnya
+
+- `V1.6`: terapkan saran ke draft revisi tanpa overwrite langsung
+- `V2`: compile assistant dari GUI
+- `V3`: ingest PDF referensi
+- `V4`: multi-agent supervisor workflow

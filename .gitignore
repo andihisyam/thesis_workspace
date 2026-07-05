@@ -15,6 +15,12 @@
 *.synctex.gz
 *.toc
 *.xdv
+*.ilg
+*.ind
+*.idx
+*.acn
+*.acr
+*.alg
 
 # Latexmk
 *.dvi
@@ -24,6 +30,38 @@
 # Keep this ignored if the team compiles locally and shares source only.
 *.pdf
 
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+.coverage.*
+
+# Virtual environments and local secrets
+.env
+.env.*
+!.env.example
+.venv/
+venv/
+env/
+
+# Frontend / Node
+node_modules/
+dist/
+coverage/
+*.tsbuildinfo
+
+# Runtime app data
+data/
+!data/.gitkeep
+
+# Temporary conversion folders
+tex2pdf.*/
+
 # Editor / OS files
 .DS_Store
 Thumbs.db
@@ -31,3 +69,4 @@ Thumbs.db
 *.swp
 *.swo
 .vscode/
+.idea/

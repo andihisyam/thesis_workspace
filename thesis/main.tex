@@ -2,7 +2,7 @@
 
 \usepackage[a4paper,left=4cm,right=3cm,top=3cm,bottom=3cm]{geometry}
 \usepackage{fontspec}
-\setmainfont{Liberation Serif}
+\setmainfont{Times New Roman}
 \usepackage[english,indonesian]{babel}
 \usepackage{setspace}
 \onehalfspacing
@@ -36,9 +36,30 @@
 
 \setlength{\parindent}{1.25cm}
 \setlength{\parskip}{0pt}
+\setlength{\headheight}{14pt}
 \setlist{nosep,leftmargin=1.25cm}
 \setlist[enumerate,1]{label=\arabic*.,leftmargin=1.25cm}
 \renewcommand{\arraystretch}{1.25}
+\justifying
+
+% Layout nomor halaman mengikuti panduan kampus.
+\makeatletter
+\def\ps@thesisbody{%
+  \let\@mkboth\@gobbletwo
+  \def\@oddhead{\hfill\normalfont\thepage}%
+  \def\@evenhead{\normalfont\thepage\hfill}%
+  \def\@oddfoot{}%
+  \def\@evenfoot{}%
+}
+
+\def\ps@plain{%
+  \let\@mkboth\@gobbletwo
+  \def\@oddhead{}%
+  \def\@evenhead{}%
+  \def\@oddfoot{\hfill\normalfont\thepage\hfill}%
+  \def\@evenfoot{\hfill\normalfont\thepage\hfill}%
+}
+\makeatother
 
 % Format judul bab seperti dokumen sumber
 \titleformat{\chapter}[display]
@@ -82,10 +103,14 @@
 
 \begin{document}
 
+\pagestyle{plain}
+
 \input{frontmatter}
 
+\clearpage
 \pagenumbering{arabic}
 \setcounter{page}{12}
+\pagestyle{thesisbody}
 \input{chapter1}
 \input{chapter2}
 \input{chapter3}
