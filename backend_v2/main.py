@@ -79,9 +79,32 @@ from backend_v2.workspace_service import (
 
 
 app = FastAPI(title="Private AI Thesis Workspace API", version="2.0.0")
+
+
+def set_session_cookie(response: Response, raw: str) -> None:
+    response.set_cookie(
+        settings.session_cookie_name,
+        raw,
+        httponly=True,
+        samesite=settings.session_cookie_samesite,
+        secure=settings.session_cookie_secure,
+        domain=settings.session_cookie_domain,
+        max_age=60 * 60 * 24 * settings.session_days,
+    )
+
+
+def clear_session_cookie(response: Response) -> None:
+    response.delete_cookie(
+        settings.session_cookie_name,
+        domain=settings.session_cookie_domain,
+        secure=settings.session_cookie_secure,
+        samesite=settings.session_cookie_samesite,
+    )
+
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://127.0.0.1:5173", "http://localhost:5173", "http://127.0.0.1:5174", "http://localhost:5174"],
+    allow_origins=list(settings.cors_origins),
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -180,7 +203,7 @@ def bootstrap(payload: BootstrapRequest, response: Response, db: Session = Depen
     raw, token_hash = create_session_token()
     db.add(UserSession(user_id=user.id, token_hash=token_hash, expires_at=datetime.now(timezone.utc) + timedelta(days=settings.session_days)))
     db.commit()
-    response.set_cookie(settings.session_cookie_name, raw, httponly=True, samesite="lax", max_age=60 * 60 * 24 * settings.session_days)
+    set_session_cookie(response, raw)
     return user_payload(user)
 
 
@@ -192,7 +215,7 @@ def login(payload: LoginRequest, response: Response, db: Session = Depends(get_d
     raw, token_hash = create_session_token()
     db.add(UserSession(user_id=user.id, token_hash=token_hash, expires_at=datetime.now(timezone.utc) + timedelta(days=settings.session_days)))
     db.commit()
-    response.set_cookie(settings.session_cookie_name, raw, httponly=True, samesite="lax", max_age=60 * 60 * 24 * settings.session_days)
+    set_session_cookie(response, raw)
     return user_payload(user)
 
 
@@ -205,7 +228,7 @@ def logout(
     if thesis_session:
         db.execute(delete(UserSession).where(UserSession.token_hash == hash_session_token(thesis_session)))
         db.commit()
-    response.delete_cookie(settings.session_cookie_name)
+    clear_session_cookie(response)
     return {"status": "logged_out"}
 
 

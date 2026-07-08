@@ -14,12 +14,14 @@ export type WorkspaceFile = { path: string; size: number; editable: boolean; kin
 export type Job = { id: string; type: string; status: string; progress_percent: number; progress_message: string; result: Record<string, unknown> };
 export type BibExport = { filename: string; content: string; count: number };
 
+const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL || "").replace(/\/$/, "");
+
 async function request<T>(path: string, options: RequestInit = {}): Promise<T> {
   const headers = new Headers(options.headers);
   if (options.body && !(options.body instanceof FormData)) headers.set("Content-Type", "application/json");
   let response: Response;
   try {
-    response = await fetch(path, { ...options, headers, credentials: "include" });
+    response = await fetch(`${API_BASE_URL}${path}`, { ...options, headers, credentials: "include" });
   } catch {
     throw new Error("Backend V2 tidak dapat dihubungi. Jalankan backend pada port 8001.");
   }

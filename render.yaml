@@ -1,0 +1,62 @@
+services:
+  - type: web
+    name: thesis-api
+    runtime: docker
+    dockerfilePath: ./backend_v2/Dockerfile
+    plan: starter
+    healthCheckPath: /api/v2/health
+    disk:
+      name: thesis-storage
+      mountPath: /var/data
+      sizeGB: 10
+    envVars:
+      - key: DATABASE_URL
+        value: sqlite:////var/data/v2.db
+      - key: V2_STORAGE_ROOT
+        value: /var/data/v2_storage
+      - key: CORS_ORIGINS
+        value: https://your-frontend.onrender.com
+      - key: SESSION_COOKIE_SECURE
+        value: true
+      - key: SESSION_COOKIE_SAMESITE
+        value: lax
+      - key: OPENROUTER_API_KEY
+        sync: false
+      - key: OPENROUTER_MODEL
+        value: cohere/north-mini-code:free
+      - key: OPENROUTER_BASE_URL
+        value: https://openrouter.ai/api/v1
+
+  - type: web
+    name: thesis-collaboration
+    runtime: node
+    rootDir: collaboration
+    plan: starter
+    buildCommand: npm ci
+    startCommand: node start-render.js
+    disk:
+      name: thesis-collab-data
+      mountPath: /var/data
+      sizeGB: 5
+    envVars:
+      - key: HOST
+        value: 0.0.0.0
+      - key: YPERSISTENCE
+        value: /var/data/yjs
+
+  - type: web
+    runtime: static
+    name: thesis-frontend
+    rootDir: frontend_v2
+    buildCommand: npm ci && npm run build
+    staticPublishPath: frontend_v2/dist
+    pullRequestPreviewsEnabled: false
+    envVars:
+      - key: VITE_API_BASE_URL
+        value: https://your-api.onrender.com
+      - key: VITE_COLLAB_URL
+        value: wss://your-collaboration.onrender.com
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
