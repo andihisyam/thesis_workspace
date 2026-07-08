@@ -70,3 +70,24 @@ Thumbs.db
 *.swo
 .vscode/
 .idea/
+
+# Documentation
+*.md
+!README.md
+!**/README.md
+
+# Additional local temp folders
+.tmp_compile_check*/
+pytest-cache-files-*/
+
+# Collaboration persistence
+collaboration/data/
+
+# Local logs
+*.pid
+*.seed
+*.pid.lock
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*

@@ -1,0 +1,15 @@
+{
+  "name": "thesis-collaboration-server",
+  "private": true,
+  "version": "2.0.0",
+  "scripts": {
+    "dev": "cross-env HOST=127.0.0.1 PORT=1234 YPERSISTENCE=./data npx y-websocket",
+    "start": "cross-env HOST=127.0.0.1 PORT=1234 YPERSISTENCE=./data npx y-websocket"
+  },
+  "dependencies": {
+    "@y/websocket-server": "^0.1.4",
+    "cross-env": "^7.0.3",
+    "y-leveldb": "^0.2.0",
+    "yjs": "^13.6.27"
+  }
+}
