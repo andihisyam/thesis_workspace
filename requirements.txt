@@ -1,6 +1,0 @@
-streamlit
-langgraph
-langchain-core
-pydantic
-python-dotenv
-openai
