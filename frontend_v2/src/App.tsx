@@ -162,11 +162,12 @@ function PdfReview({ projectId }: { projectId: string }) {
   const [reviewJobId, setReviewJobId] = useState(localStorage.getItem(reviewJobKey(projectId)) || "");
   const [draftJobId, setDraftJobId] = useState(localStorage.getItem(draftJobKey(projectId)) || "");
 
-  const docs = useQuery({ queryKey: ["documents", projectId], queryFn: () => api.documents(projectId), refetchInterval: uploadJobId ? 1000 : 4000 });
-  const uploadJob = useQuery({ queryKey: ["job", uploadJobId], queryFn: () => api.job(uploadJobId), enabled: Boolean(uploadJobId), refetchInterval: (query) => ["SUCCEEDED", "FAILED"].includes(query.state.data?.status || "") ? false : 800 });
-  const reviewJob = useQuery({ queryKey: ["job", reviewJobId], queryFn: () => api.job(reviewJobId), enabled: Boolean(reviewJobId), refetchInterval: (query) => ["SUCCEEDED", "FAILED"].includes(query.state.data?.status || "") ? false : 800 });
-  const draftJob = useQuery({ queryKey: ["job", draftJobId], queryFn: () => api.job(draftJobId), enabled: Boolean(draftJobId), refetchInterval: (query) => ["SUCCEEDED", "FAILED"].includes(query.state.data?.status || "") ? false : 800 });
-  const structure = useQuery({ queryKey: ["structure", projectId, documentId], queryFn: () => api.structure(projectId, documentId), enabled: Boolean(documentId), refetchInterval: (query) => query.state.data?.units.length ? false : 1000 });
+  const uploadJob = useQuery({ queryKey: ["job", uploadJobId], queryFn: () => api.job(uploadJobId), enabled: Boolean(uploadJobId), refetchInterval: (query) => ["SUCCEEDED", "FAILED"].includes(query.state.data?.status || "") ? false : 1500 });
+  const uploadPollingActive = Boolean(uploadJobId) && !["SUCCEEDED", "FAILED"].includes(uploadJob.data?.status || "");
+  const docs = useQuery({ queryKey: ["documents", projectId], queryFn: () => api.documents(projectId), refetchInterval: uploadPollingActive ? 2000 : false });
+  const reviewJob = useQuery({ queryKey: ["job", reviewJobId], queryFn: () => api.job(reviewJobId), enabled: Boolean(reviewJobId), refetchInterval: (query) => ["SUCCEEDED", "FAILED"].includes(query.state.data?.status || "") ? false : 1500 });
+  const draftJob = useQuery({ queryKey: ["job", draftJobId], queryFn: () => api.job(draftJobId), enabled: Boolean(draftJobId), refetchInterval: (query) => ["SUCCEEDED", "FAILED"].includes(query.state.data?.status || "") ? false : 1500 });
+  const structure = useQuery({ queryKey: ["structure", projectId, documentId], queryFn: () => api.structure(projectId, documentId), enabled: Boolean(documentId), refetchInterval: (query) => query.state.data?.units.length ? false : 2000 });
 
   const upload = useMutation({
     mutationFn: (file: File) => api.uploadDocument(projectId, file),
@@ -233,8 +234,12 @@ function PdfReview({ projectId }: { projectId: string }) {
   useEffect(() => {
     if (uploadJob.data?.status === "SUCCEEDED") {
       setStructureSaved(false);
+      setUploadJobId("");
       queryClient.invalidateQueries({ queryKey: ["documents", projectId] });
       queryClient.invalidateQueries({ queryKey: ["structure", projectId, documentId] });
+    }
+    if (uploadJob.data?.status === "FAILED") {
+      setUploadJobId("");
     }
   }, [documentId, projectId, queryClient, uploadJob.data?.status]);
 
@@ -558,7 +563,7 @@ function WorkspaceEditor({ projectId, workspace, user }: { projectId: string; wo
   const hydratedPathRef = useRef("");
   const [jobId, setJobId] = useState(localStorage.getItem(compileJobKey(projectId, workspace.id)) || "");
   const [dismissedCompileErrorKey, setDismissedCompileErrorKey] = useState("");
-  const job = useQuery({ queryKey: ["job", jobId], queryFn: () => api.job(jobId), enabled: Boolean(jobId), refetchInterval: (query) => ["SUCCEEDED", "FAILED"].includes(query.state.data?.status || "") ? false : 800 });
+  const job = useQuery({ queryKey: ["job", jobId], queryFn: () => api.job(jobId), enabled: Boolean(jobId), refetchInterval: (query) => ["SUCCEEDED", "FAILED"].includes(query.state.data?.status || "") ? false : 1500 });
   const rootTree = buildExplorerTree(files.data?.files || []);
 
   useEffect(() => {
