@@ -9,16 +9,22 @@ class _DummyResponse:
 
 
 class _DummyClient:
-    def __init__(self, content: str):
-        self._content = content
+    def __init__(self, contents: list[str] | str):
+        if isinstance(contents, str):
+            self._contents = [contents]
+        else:
+            self._contents = list(contents)
+        self.calls: list[dict] = []
         self.chat = type("Chat", (), {"completions": type("Completions", (), {"create": self.create})()})()
 
-    def create(self, **_kwargs):
-        return _DummyResponse(self._content)
+    def create(self, **kwargs):
+        self.calls.append(kwargs)
+        content = self._contents.pop(0) if self._contents else "{}"
+        return _DummyResponse(content)
 
 
 def test_build_llm_suggestions_accepts_alternative_keys(monkeypatch):
-    payload = '{"summary":"ok","issues":[{"title":"Masalah kutipan","detail":"Rapikan format sitasi","priority":"high","evidence":"[1][2]"}]}'
+    payload = '{"summary":"ok","issues":[{"title":"Masalah kutipan","detail":"Rapikan format sitasi","priority":"high","evidence":"[1][2]","reason":"Agar konsisten"}]}'
     monkeypatch.setenv("OPENROUTER_API_KEY", "dummy")
     monkeypatch.setattr(llm_review_service, "OpenAI", lambda **_kwargs: _DummyClient(payload))
 
@@ -30,7 +36,23 @@ def test_build_llm_suggestions_accepts_alternative_keys(monkeypatch):
         "suggestion": "Rapikan format sitasi",
         "severity": "high",
         "excerpt": "[1][2]",
+        "replacement": "",
+        "reason": "Agar konsisten",
     }]
+
+
+def test_build_llm_suggestions_retries_when_replacement_is_english(monkeypatch):
+    first_payload = '{"summary":"awal","suggestions":[{"issue":"Kalimat informal","suggestion":"Gunakan bahasa lebih formal","severity":"medium","excerpt":"kalimat asli","replacement":"This sentence should be more formal.","reason":"Lebih akademik"}]}'
+    second_payload = '{"summary":"ulang","suggestions":[{"issue":"Kalimat informal","suggestion":"Gunakan bahasa lebih formal","severity":"medium","excerpt":"kalimat asli","replacement":"Kalimat ini sebaiknya dibuat lebih formal.","reason":"Agar sesuai gaya akademik"}]}'
+    client = _DummyClient([first_payload, second_payload])
+    monkeypatch.setenv("OPENROUTER_API_KEY", "dummy")
+    monkeypatch.setattr(llm_review_service, "OpenAI", lambda **_kwargs: client)
+
+    suggestions, summary = llm_review_service.build_llm_suggestions(["Paragraf contoh."], "cek gaya bahasa", "Bab I")
+
+    assert summary == "ulang"
+    assert suggestions[0]["replacement"] == "Kalimat ini sebaiknya dibuat lebih formal."
+    assert len(client.calls) == 2
 
 
 def test_build_llm_suggestions_falls_back_when_suggestions_missing(monkeypatch):
