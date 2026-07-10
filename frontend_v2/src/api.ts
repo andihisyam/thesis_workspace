@@ -11,7 +11,7 @@ export type DraftVersion = { id: string; version: number; content: string; summa
 export type Workspace = { id: string; name: string; main_document: string };
 export type WorkspaceScaffold = { name: string; main_document: string; paper_size: string; font_size: string; line_spacing: string; margin_top_cm: number; margin_right_cm: number; margin_bottom_cm: number; margin_left_cm: number; font_family: string; chapter_style: string; include_cover: boolean; bibliography_style: string };
 export type WorkspaceFile = { path: string; size: number; editable: boolean; kind: "file" | "folder" };
-export type Job = { id: string; type: string; status: string; progress_percent: number; progress_message: string; result: Record<string, unknown> };
+export type Job = { id: string; type: string; status: string; progress_percent: number; progress_message: string; error_message?: string | null; result: Record<string, unknown> };
 export type BibExport = { filename: string; content: string; count: number };
 
 const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL || "").replace(/\/$/, "");

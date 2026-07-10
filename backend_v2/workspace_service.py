@@ -101,12 +101,54 @@ def _extract_compile_error(output: str) -> dict:
     return {"error_summary": summary, "error_line": error_line, "error_context": error_context}
 
 
+def _select_latex_compiler() -> str | None:
+    candidates = (
+        "xelatex",
+        "/usr/bin/xelatex",
+        "/bin/xelatex",
+        "lualatex",
+        "/usr/bin/lualatex",
+        "/bin/lualatex",
+        "pdflatex",
+        "/usr/bin/pdflatex",
+        "/bin/pdflatex",
+    )
+    for candidate in candidates:
+        resolved = shutil.which(candidate) if not candidate.startswith("/") else candidate
+        if resolved and Path(resolved).exists():
+            return resolved
+    return None
+
+
+
 def _run_latex_pipeline(cwd: Path, filename: str, stem: str) -> dict:
+    compiler = _select_latex_compiler()
+    if not compiler:
+        return {
+            "success": False,
+            "steps": [],
+            "pdf_path": "",
+            "error_summary": "Compiler LaTeX tidak ditemukan di VPS. Pasang xelatex, lualatex, atau pdflatex dulu.",
+            "error_line": None,
+            "error_context": "",
+        }
+
+    biber = shutil.which("biber") or ("/usr/bin/biber" if Path("/usr/bin/biber").exists() else None)
+    if not biber:
+        return {
+            "success": False,
+            "steps": [],
+            "pdf_path": "",
+            "error_summary": "biber tidak ditemukan di VPS. Pasang biber dulu.",
+            "error_line": None,
+            "error_context": "",
+        }
+
     commands = [
-        ["xelatex", "-no-shell-escape", "-interaction=nonstopmode", filename],
-        ["biber", stem],
-        ["xelatex", "-no-shell-escape", "-interaction=nonstopmode", filename],
-        ["xelatex", "-no-shell-escape", "-interaction=nonstopmode", filename],
+        [compiler, "-no-shell-escape", "-interaction=nonstopmode", filename],
+        [biber, stem],
+        [compiler, "-no-shell-escape", "-interaction=nonstopmode", filename],
+        [compiler, "-no-shell-escape", "-interaction=nonstopmode", filename],
     ]
     steps = []
     for index, command in enumerate(commands):
@@ -129,10 +171,36 @@ def _run_latex_pipeline(cwd: Path, filename: str, stem: str) -> dict:
 
 
 def _apply_workspace_tex_fixes(output_root: Path) -> None:
+    javascript_language = r"""\lstdefinelanguage{JavaScript}{
+  morekeywords={const,let,var,function,return,if,else,for,while,break,continue,async,await,class,new,this,import,from,export,default},
+  sensitive=true,
+  morecomment=[l]{//},
+  morecomment=[s]{/*}{*/},
+  morestring=[b]'
+  morestring=[b]"
+}"""
+    texttt_pattern = re.compile(r"\\texttt\{([^{}]*)\}")
+
+    def escape_texttt(match: re.Match[str]) -> str:
+        body = match.group(1)
+        body = body.replace('\\', r'\textbackslash{}')
+        body = body.replace('&', r'\&').replace('%', r'\%').replace('#', r'\#').replace('_', r'\_')
+        return r"\texttt{" + body + "}"
+
     for candidate in output_root.rglob("*.tex"):
         content = candidate.read_text(encoding="utf-8")
-        if r"\usepackage{newtxtext,newtxmath}" in content:
-            candidate.write_text(content.replace(r"\usepackage{newtxtext,newtxmath}", r"\usepackage{mathptmx}"), encoding="utf-8")
+        updated = content
+        if r"\usepackage{newtxtext,newtxmath}" in updated:
+            updated = updated.replace(r"\usepackage{newtxtext,newtxmath}", r"\usepackage{mathptmx}")
+        if r"\begin{lstlisting}[language=JavaScript]" in updated and r"\lstdefinelanguage{JavaScript}" not in updated:
+            marker = r"\usepackage{listings}"
+            if marker in updated:
+                updated = updated.replace(marker, marker + "\n" + javascript_language, 1)
+            else:
+                updated = javascript_language + "\n" + updated
+        updated = texttt_pattern.sub(escape_texttt, updated)
+        if updated != content:
+            candidate.write_text(updated, encoding="utf-8")
 
 
 def compile_workspace(workspace_root: Path, main_document: str, output_root: Path) -> dict:

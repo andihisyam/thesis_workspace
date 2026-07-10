@@ -610,7 +610,7 @@ def create_draft_payload(db: Session, project_id: str, user_id: str, unit: Docum
         latest_review = db.scalar(select(ReviewRun).where(ReviewRun.unit_id == unit.id).order_by(ReviewRun.created_at.desc()))
         suggestions = json.loads(latest_review.suggestions_json) if latest_review else []
         try:
-            content, summary = build_revision_draft(unit.content, suggestions, f"{unit.number} {unit.title}".strip(), latest_review.user_goal if latest_review else "Rapikan tulisan akademik.")
+            content, summary = build_revision_draft(unit.content, suggestions, f"{unit.number} {unit.title}".strip(), latest_review.user_goal if latest_review else "Rapikan tulisan akademik.", section_number=unit.number or "", section_title=unit.title or "", section_level=unit.level or "")
             source = "openrouter"
         except Exception:
             content = unit.content
@@ -1156,7 +1156,7 @@ def get_job(job_id: str, db: Session = Depends(get_db), user: User = Depends(cur
     if not job:
         raise HTTPException(status_code=404, detail="Job tidak ditemukan.")
     membership(db, job.project_id, user)
-    return {"id": job.id, "type": job.job_type, "status": job.status, "progress_percent": job.progress_percent, "progress_message": job.progress_message, "result": json.loads(job.result_json or "{}")}
+    return {"id": job.id, "type": job.job_type, "status": job.status, "progress_percent": job.progress_percent, "progress_message": job.progress_message, "error_message": job.error_message, "result": json.loads(job.result_json or "{}")}
 
 
 @app.get("/api/v2/jobs/{job_id}/events")
@@ -1173,7 +1173,7 @@ def job_events(job_id: str, db: Session = Depends(get_db), user: User = Depends(
 
             event_db = SessionLocal()
             current = event_db.get(Job, job_id)
-            payload = {"id": current.id, "status": current.status, "progress_percent": current.progress_percent, "progress_message": current.progress_message, "result": json.loads(current.result_json or "{}")}
+            payload = {"id": current.id, "status": current.status, "progress_percent": current.progress_percent, "progress_message": current.progress_message, "error_message": current.error_message, "result": json.loads(current.result_json or "{}")}
             event_db.close()
             serialized = json.dumps(payload, ensure_ascii=False)
             if serialized != last:
