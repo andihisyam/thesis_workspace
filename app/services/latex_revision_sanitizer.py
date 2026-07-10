@@ -22,19 +22,19 @@ COMMANDS = (
 
 
 def _escape_bare_ampersands(text: str) -> str:
-    return re.sub(r"(?<!\)&", r"\&", text)
+    return re.sub(r"(?<!\\)&", r"\\&", text)
 
 
 def _escape_bare_percent(text: str) -> str:
-    return re.sub(r"(?<!\)%", r"\%", text)
+    return re.sub(r"(?<!\\)%", r"\\%", text)
 
 
 def _escape_bare_hash(text: str) -> str:
-    return re.sub(r"(?<!\)#", r"\#", text)
+    return re.sub(r"(?<!\\)#", r"\\#", text)
 
 
 def _escape_bare_underscore(text: str) -> str:
-    return re.sub(r"(?<!\)_", r"\_", text)
+    return re.sub(r"(?<!\\)_", r"\\_", text)
 
 
 def _normalize_numeric_ranges(text: str) -> str:
