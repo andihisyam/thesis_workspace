@@ -182,10 +182,21 @@ def _format_revision_notes(suggestions: list[dict]) -> str:
     for index, item in enumerate(suggestions[:8], start=1):
         issue = str(item.get("issue", "")).strip()
         suggestion = str(item.get("suggestion", "")).strip()
-        if not issue and not suggestion:
+        excerpt = str(item.get("excerpt", "")).strip()
+        replacement = str(item.get("replacement", "")).strip()
+        reason = str(item.get("reason", "")).strip()
+        if not any([issue, suggestion, excerpt, replacement, reason]):
             continue
-        pieces = [piece for piece in [issue, suggestion] if piece]
-        notes.append(f"% {index}. {' '.join(pieces)}")
+        lines = [f"% {index}. {issue or 'Perlu revisi'}"]
+        if excerpt:
+            lines.append(f"%    Asli   : {excerpt}")
+        if replacement:
+            lines.append(f"%    Usulan : {replacement}")
+        if suggestion and suggestion != reason:
+            lines.append(f"%    Saran  : {suggestion}")
+        if reason:
+            lines.append(f"%    Alasan : {reason}")
+        notes.extend(lines)
     if not notes:
         return ""
     return "\n".join([
@@ -194,7 +205,6 @@ def _format_revision_notes(suggestions: list[dict]) -> str:
         "% ====================",
         *notes,
     ])
-
 
 def build_revision_draft(source_text: str, suggestions: Iterable[dict], section_label: str, user_goal: str, *, section_number: str = "", section_title: str = "", section_level: str = "") -> tuple[str, str]:
     suggestions = list(suggestions)

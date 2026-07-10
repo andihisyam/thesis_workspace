@@ -58,13 +58,17 @@ def _normalize_suggestions(items: list) -> list[dict]:
         suggestion = str(item.get("suggestion") or item.get("detail") or item.get("recommendation") or item.get("action") or "").strip()
         severity = str(item.get("severity") or item.get("priority") or "medium").strip() or "medium"
         excerpt = str(item.get("excerpt") or item.get("evidence") or item.get("example") or "").strip()
-        if not issue and not suggestion:
+        replacement = str(item.get("replacement") or item.get("revision") or item.get("proposed_text") or item.get("rewrite") or "").strip()
+        reason = str(item.get("reason") or item.get("why") or item.get("rationale") or "").strip()
+        if not issue and not suggestion and not replacement:
             continue
         normalized.append({
             "issue": issue or "Perlu perhatian lebih lanjut.",
             "suggestion": suggestion or "Periksa kembali bagian ini agar lebih sesuai dengan tujuan review.",
             "severity": severity,
             "excerpt": excerpt,
+            "replacement": replacement,
+            "reason": reason or suggestion or "Perlu penyesuaian agar lebih akademik dan jelas.",
         })
     return normalized
 
@@ -86,10 +90,14 @@ Teks:
 {joined}
 
 Tugas:
-1. Beri ringkasan singkat kualitas bagian ini.
-2. Beri minimal 3 saran revisi spesifik.
-3. Kalau naskah sudah cukup baik, tetap beri saran minor yang realistis.
-4. Jawab HANYA dalam JSON valid tanpa penjelasan tambahan di luar JSON.
+1. Bertindak sebagai reviewer, bukan penulis ulang penuh.
+2. Temukan bagian yang memang perlu diperbaiki, terutama kalimat yang terlalu panjang, ambigu, informal, atau kurang akademik.
+3. Untuk setiap temuan, sebisa mungkin kutip bagian aslinya secara spesifik pada field excerpt.
+4. Jika memungkinkan, beri usulan kalimat pengganti yang lebih baik pada field replacement.
+5. Jelaskan alasan revisi pada field reason.
+6. Jangan menulis ulang seluruh bagian. Fokus pada saran per kalimat atau per frasa.
+7. Beri 4 sampai 10 saran yang paling bernilai. Jika teks sudah cukup baik, tetap beri saran minor yang realistis.
+8. Jawab HANYA dalam JSON valid tanpa penjelasan tambahan di luar JSON.
 
 Format JSON yang wajib:
 {{
@@ -99,7 +107,9 @@ Format JSON yang wajib:
       "issue": "...",
       "suggestion": "...",
       "severity": "low|medium|high",
-      "excerpt": "..."
+      "excerpt": "kutipan bagian asli yang perlu diperbaiki",
+      "replacement": "usulan pengganti yang lebih baik",
+      "reason": "alasan kenapa bagian itu sebaiknya direvisi"
     }}
   ]
 }}
