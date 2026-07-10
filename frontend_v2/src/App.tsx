@@ -558,7 +558,14 @@ function WorkspaceEditor({ projectId, workspace, user }: { projectId: string; wo
   const hydratedPathRef = useRef("");
   const [jobId, setJobId] = useState(localStorage.getItem(compileJobKey(projectId, workspace.id)) || "");
   const [dismissedCompileErrorKey, setDismissedCompileErrorKey] = useState("");
-  const job = useQuery({ queryKey: ["job", jobId], queryFn: () => api.job(jobId), enabled: Boolean(jobId), refetchInterval: (query) => ["SUCCEEDED", "FAILED"].includes(query.state.data?.status || "") ? false : 800 });
+  const job = useQuery({
+    queryKey: ["job", jobId],
+    queryFn: () => api.job(jobId),
+    enabled: Boolean(jobId),
+    refetchInterval: (query) => ["SUCCEEDED", "FAILED"].includes(query.state.data?.status || "") ? false : 800,
+    refetchOnWindowFocus: false,
+    refetchOnReconnect: false,
+  });
   const rootTree = buildExplorerTree(files.data?.files || []);
 
   useEffect(() => {
@@ -633,6 +640,13 @@ function WorkspaceEditor({ projectId, workspace, user }: { projectId: string; wo
   useEffect(() => {
     if (job.data?.status === "RUNNING" || job.data?.status === "QUEUED") setDismissedCompileErrorKey("");
   }, [job.data?.status, jobId]);
+
+  useEffect(() => {
+    if (!jobId || !job.data?.status) return;
+    if (["SUCCEEDED", "FAILED", "CANCELLED"].includes(job.data.status)) {
+      localStorage.removeItem(compileJobKey(projectId, workspace.id));
+    }
+  }, [job.data?.status, jobId, projectId, workspace.id]);
 
   useEffect(() => {
     if (!path || !selectedItem?.editable || hydratedPathRef.current !== path || !file.data) return;
